@@ -10,14 +10,101 @@ body {
     width: 100vw;
 }
 
+ul {
+    list-style: none;
+}
+
 #root {
+    height: 100vh;
+    width: 100vw;
     display: grid;
-    grid-template-columns: 250px 1fr;
+    grid-template-columns: 150px 1fr;
     grid-template-rows: 1fr;
+}
+
+nav {
+    background-color: #868951;
+    display: grid;
+    justify-content: center;
+    padding: 32px 0px;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 150px;
+}
+
+nav ul li {
+    width: 100%;
+    color: white;
+    font-size: 24px;
+    padding: 8px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+nav ul li:hover {
+    background-color: #999c66;
+}
+
+.selected-page {
+    background-color: #bec279;
 }
 
 main {
     display: grid;
-    grid-template-rows: 150px 1fr;
+    grid-template-rows: 120px 1fr;
 }
 
+.forum-header {
+    display: grid;
+    grid-template-columns: 1fr 250px;
+    padding: 24px;
+    align-items: center;
+}
+
+.forum-header h2 {
+    font-size: 36px;
+}
+
+.account-div {
+    border: 2px solid grey;
+    padding: 8px;
+    height: fit-content;
+    width: 250px;
+    border-radius: 8px;
+}
+
+.pfp {
+
+}
+
+.forum {
+    background-color: #ffebca;
+    padding: 32px;
+}
+
+.posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    grid-auto-columns: 300px;
+    grid-auto-rows: 300px;
+    gap: 32px;
+
+}
+
+.user-post {
+    display: flex;
+    flex-direction: column;
+    background-color: #eccfa1;
+    padding: 24px;
+    border-radius: 12px;
+}
+
+.user-post p {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: hidden;
+}

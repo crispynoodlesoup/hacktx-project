@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, Navigate, useNavigate, useOutletContext } from "react-router-dom";
 import closeImg from "./assets/close-thick.svg";
 import logo from "./assets/canva/healthy-build-white-icon.png";
 import downIcon from "./assets/chevron-down.svg";
@@ -7,6 +7,7 @@ import upIcon from "./assets/chevron-up.svg";
 import homeIcon from "./assets/canva/home.png";
 import messageIcon from "./assets/canva/message.png";
 import accountIcon from "./assets/canva/account.png";
+import axios from "axios";
 
 function Home() {
   const name = localStorage.getItem("user");
@@ -14,6 +15,23 @@ function Home() {
   const [modalPost, setModalPost] = useState(null);
   const [replyText, setReplyText] = useState();
   const [showDropdown, setShowDropdown] = useState(false);
+  const username = localStorage.getItem("user")
+
+
+  const sendMessage = (author) => {
+    
+    axios
+    .post("https://hacktxserver.fly.dev/sendMessage", newMessage)
+    .then((response) => {
+      setMessageData(response.data);
+      console.log("Message sent" + response.data)
+    }).catch((error) => {
+      console.error("Error sending message: " + error)
+    })
+    setMessageBox("");
+  };
+
+  const navigate = useNavigate();
 
   const fetchPosts = async () => {
     try {
@@ -44,13 +62,34 @@ function Home() {
   }
 
   function handleReply() {
+    console.log("hello")
+    if(!modalPost){
+      return;
+    }
+    const newMessage = {
+      sender_id: username,
+      recipient_id: "rpadilla",
+      message: replyText,
+    };
+
+    axios
+    .post("https://hacktxserver.fly.dev/sendMessage", newMessage)
+    .then((reponse) => {
+      
+    })
+    .catch((error) =>{
+      console.log(error)
+    })
+
     // big server code here
     setReplyText("");
     hideModal();
   }
 
-  function handleLogout() {
+  const handleLogout = () => {
     // server code
+    localStorage.setItem("user", "")
+    navigate('/login')
   }
 
   return (

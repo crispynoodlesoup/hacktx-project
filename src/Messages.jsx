@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import io from "socket.io-client"
 import homeCity from "./assets/canva/home_city.png";
 import logo from "./assets/canva/healthy-build-white-icon.png";
 import truck1 from "./assets/canva/trucks.png";
@@ -16,12 +15,8 @@ function Messages() {
   const [contactData, setContactData] = useState([]);
   const [messageData, setMessageData] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
-  const [socket, setSocket] = useState(null)
-  const [isConnected, setIsConnected] = useState(socket.connected);
   const [progress, setProgress] = useState(0);
   const username = localStorage.getItem("user");
-
-  useEffect(() => setProgress(40), []);
 
   const handleContactClick = (contactname) => {
     setSelectedContact(contactname)
@@ -39,6 +34,11 @@ function Messages() {
   }, [username]);
 
   useEffect(() => {
+    axios
+    .post("https://hacktxserver.fly.dev/getBondScore", {username:username,})
+    .then((response) => {
+      setProgress(response.data['bondScore'])
+    }, [username])
     if (selectedContact) {
       axios
         .post("https://hacktxserver.fly.dev/getUserMessages", { sender_id: selectedContact, recipient_id: username})
@@ -50,9 +50,6 @@ function Messages() {
           console.error("Error fetching this contacts messages: " + error);
         });
     }
-    return () => {
-      socket.disconnect();
-    };
   }, [selectedContact, username]);
 
   const sendMessage = () => {
@@ -62,37 +59,17 @@ function Messages() {
         recipient_id: selectedContact,
         message: messageBox,
       };
-      // axios
-      // .post("http://127.0.0.1:5000/sendMessage", newMessage)
-      // .then((response) => {
-      //   setMessageData(response.data);
-      //   console.log("Message sent" + response.data)
-      // }).catch((error) => {
-      //   console.error("Error sending message: " + error)
-      // })
-      // setMessageBox("");
-      socket.emit("send_message", newMessage);
+      axios
+      .post("https://hacktxserver.fly.dev/sendMessage", newMessage)
+      .then((response) => {
+        setMessageData(response.data);
+        console.log("Message sent" + response.data)
+      }).catch((error) => {
+        console.error("Error sending message: " + error)
+      })
       setMessageBox("");
     }
   };
-
-  useEffect(() => {
-    const newSocket = io('https://hacktxserver.fly.dev:5000')
-    setSocket(newSocket)
-
-    socket.on("receive_message", (message) => {
-      setMessageData((prevMessageData) => [...prevMessageData, message])
-    })
-    socket.on("connect_error", (error) => {
-      console.error("WebSocket connection error:", error);
-    });
-    socket.on("receive_message", (message) => {
-      setMessageData((prevMessageData) => [...prevMessageData, message]);
-    });
-    return () => {
-      socket.disconnect()
-    }
-  }, [selectedContact, username])
 
   const reversedMessages = messageData.slice().reverse()
 

@@ -36,6 +36,7 @@ function Messages() {
 
   useEffect(() => {
     if (selectedContact) {
+      pollMessages();
       axios
         .post("https://hacktxserver.fly.dev/getUserMessages", { sender_id: selectedContact, recipient_id: username})
         .then((response) => {
@@ -77,6 +78,22 @@ function Messages() {
   };
 
   const reversedMessages = messageData.slice().reverse()
+
+  const pollMessages = () => {
+    if(selectedContact){
+      axios
+      .post("https://hacktxserver.fly.dev/getUserMessages", {
+        sender_id: selectedContact,
+        recipient_id: username
+      })
+      .catch((error) => {
+        console.error("Error fetching messages" + error)
+      })
+      .finally(() => {
+        pollMessages();
+      })
+    }
+  }
 
   return (
     <div className="Messages">

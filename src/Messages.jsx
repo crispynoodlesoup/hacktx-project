@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { socket } from "./socket";
+import io from "socket.io-client"
 import homeCity from "./assets/canva/home_city.png";
 import logo from "./assets/canva/healthy-build-white-icon.png";
 import truck1 from "./assets/canva/trucks.png";
@@ -13,6 +14,7 @@ function Messages() {
   const [contactData, setContactData] = useState([]);
   const [messageData, setMessageData] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
+  const socket = io("https://hacktxserver.fly.dev");
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [progress, setProgress] = useState(0);
   const username = localStorage.getItem("user");
@@ -36,7 +38,6 @@ function Messages() {
 
   useEffect(() => {
     if (selectedContact) {
-      pollMessages();
       axios
         .post("https://hacktxserver.fly.dev/getUserMessages", { sender_id: selectedContact, recipient_id: username})
         .then((response) => {
@@ -65,35 +66,30 @@ function Messages() {
         recipient_id: selectedContact,
         message: messageBox,
       };
-      axios
-      .post("http://127.0.0.1:5000/sendMessage", newMessage)
-      .then((response) => {
-        setMessageData(response.data);
-        console.log("Message sent" + response.data)
-      }).catch((error) => {
-        console.error("Error sending message: " + error)
-      })
+      // axios
+      // .post("http://127.0.0.1:5000/sendMessage", newMessage)
+      // .then((response) => {
+      //   setMessageData(response.data);
+      //   console.log("Message sent" + response.data)
+      // }).catch((error) => {
+      //   console.error("Error sending message: " + error)
+      // })
+      // setMessageBox("");
+      socket.emit("send_message", newMessage);
       setMessageBox("");
     }
   };
 
-  const reversedMessages = messageData.slice().reverse()
-
-  const pollMessages = () => {
-    if(selectedContact){
-      axios
-      .post("https://hacktxserver.fly.dev/getUserMessages", {
-        sender_id: selectedContact,
-        recipient_id: username
-      })
-      .catch((error) => {
-        console.error("Error fetching messages" + error)
-      })
-      .finally(() => {
-        pollMessages();
-      })
+  useEffect(() => {
+    socket.on("receive_message", (message) => {
+      setMessageData((prevMessageData) => [...prevMessageData, message])
+    })
+    return () => {
+      socket.disconnect90
     }
-  }
+  }, [selectedContact, username])
+
+  const reversedMessages = messageData.slice().reverse()
 
   return (
     <div className="Messages">

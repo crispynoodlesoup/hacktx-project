@@ -56,13 +56,22 @@ function Home() {
         <img className="nav-logo" src={logo} alt="" />
         <ul>
           <Link to="../home">
-            <li className="selected-page">Home</li>
+            <li className="selected-page">
+              <img className="nav-icon" src={homeIcon} alt="" />
+              <p>Home</p>
+            </li>
           </Link>
           <Link to="../messages">
-            <li>Messages</li>
+            <li>
+              <img className="nav-icon" src={messageIcon} alt="" />
+              <p>Messages</p>
+            </li>
           </Link>
           <Link to="../profile">
-            <li>Profile</li>
+            <li>
+              <img className="nav-icon" src={accountIcon} alt="" />
+              <p>Profile</p>
+            </li>
           </Link>
         </ul>
       </nav>
@@ -70,17 +79,20 @@ function Home() {
         <section className="forum-header">
           <h2>Welcome back {name}!</h2>
           <div className="account-wrapper">
-            <div className="account-div" onClick={() => setShowDropdown(!showDropdown)}>
+            <div
+              className="account-div"
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
               <p>{name}</p>
               <img src={showDropdown ? downIcon : upIcon} alt="" />
             </div>
-            { showDropdown &&
+            {showDropdown && (
               <ul className="account-dropdown">
-              <li>Set status</li>
-              <li>View profile</li>
-              <li onClick={handleLogout}>Logout</li>
-            </ul>
-          }
+                <li>Set status</li>
+                <li>View profile</li>
+                <li onClick={handleLogout}>Logout</li>
+              </ul>
+            )}
           </div>
         </section>
         <section className="forum">

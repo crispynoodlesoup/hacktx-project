@@ -96,14 +96,23 @@ function Messages() {
       <nav>
         <img className="nav-logo" src={logo} alt="" />
         <ul>
-          <Link to="../home">
-            <li>Home</li>
+        <Link to="../home">
+            <li>
+              <img className="nav-icon" src={homeIcon} alt="" />
+              <p>Home</p>
+            </li>
           </Link>
           <Link to="../messages">
-            <li className="selected-page">Messages</li>
+            <li className="selected-page">
+              <img className="nav-icon" src={messageIcon} alt="" />
+              <p>Messages</p>
+            </li>
           </Link>
           <Link to="../profile">
-            <li>Profile</li>
+            <li>
+              <img className="nav-icon" src={accountIcon} alt="" />
+              <p>Profile</p>
+            </li>
           </Link>
         </ul>
       </nav>

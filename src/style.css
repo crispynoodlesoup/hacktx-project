@@ -39,7 +39,7 @@ ul {
 }
 
 nav {
-    background-color: #868951;
+    background-color: #EA9A55;
     display: grid;
     justify-content: center;
     padding: 32px 0px;
@@ -67,11 +67,11 @@ a {
 }
 
 nav ul li:hover {
-    background-color: #999c66;
+    background-color: #f7ad53;
 }
 
 .selected-page {
-    background-color: #bec279;
+    background-color: #fcb967;
 }
 
 .home-page {
@@ -107,7 +107,6 @@ Link {
 }
 
 .forum {
-    background-color: #ffebca;
     padding: 32px;
 }
 
@@ -140,7 +139,6 @@ Link {
     display: flex;
     align-items: center;
     gap: 32px;
-    background-color: #ffebca;
 }
 
 .messaging-main-div {
@@ -149,14 +147,13 @@ Link {
     display: grid; 
     grid-template-columns: 200px 1fr;
     grid-template-rows: 56px 1fr 48px;
-    background-color: #d8b376;
+    background-color: #EA9A55;
     overflow: hidden;
-    border-radius: 16px;
     gap: 4px;
 }
 
 .contacts {
-    background-color: #fdddab;
+    background-color: #FFD287;
     grid-row: 1/4;
     grid-column: 1/2;
 }
@@ -173,25 +170,32 @@ Link {
 }
 
 .user-contact:hover {
-    background-color: #fad59a;
+    background-color: #e6ae5c;
+    cursor: pointer;
+}
+
+.selected-contact {
+    background-color: #EA9A55;
 }
 
 .chat-header {
     padding: 16px;
     display: grid;
     place-content: center;
-    background-color: #fdddab;
+    background-color: #FFEBCA;
 }
 
 .chat {
     overflow-y: scroll;
     padding: 16px;
-    background-color: #fdddab;
+    background-color: #FFEBCA;
+
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .user-message {
-    margin-top: 8px;
-
+    margin-top: 16px;
 }
 
 .sender-info {
@@ -201,22 +205,49 @@ Link {
 }
 
 .message-content {
-    padding: 8px;
-    border-radius: 8px;
     width: fit-content;
-    background-color: #f1cc90;
 }
 
-.message-bar {
-    background-color: #fdddab;
+.message-section {
+    background-color: #FFD287;
     display: flex;
     place-content: center;
     align-items: center;
 }
 
+.message-bar {
+    width: 300px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    background-color: #EA9A55;
+    padding: 4px 8px;
+    border-radius: 32px;
+}
+
 .message-bar input {
-    background-color: #f1cc90;
+    color: white;
+    flex: 1 0 auto;
+    outline: none;
+    background-color: #EA9A55;
+    border-radius: 16px;
+    padding: 8px;
     border: none;
+}
+
+.message-bar button {
+    height: 28px;
+    width: 28px;
+    background-image: url("./assets/send-circle.svg");
+    border: none;
+    background-color: transparent;
+    filter: invert(100%);
+    padding: 8px;
+    font-weight: bold;
+}
+
+.message-bar button:hover {
+    cursor: pointer;
 }
 
 .relationship-progress {

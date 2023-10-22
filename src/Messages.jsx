@@ -1,7 +1,108 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { socket } from "./socket";
+import { socket } from "./socket";;
+
+const contactData = [
+  {
+    name: "john",
+    lastMessage: "boy what",
+  },
+  {
+    name: "keb",
+    lastMessage: "bom what",
+  },
+  {
+    name: "pee",
+    lastMessage: "boi what",
+  },
+];
+const messageData = [
+  {
+    id: "1",
+    content: "hey what the heck",
+    sender: "what",
+    recipient: "john",
+    date: "19-2-2009",
+  },
+  {
+    id: "2",
+    content: "hey whaattttt",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "3",
+    content: "boy what",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "1",
+    content: "hey what the heck",
+    sender: "what",
+    recipient: "john",
+    date: "19-2-2009",
+  },
+  {
+    id: "2",
+    content: "hey whaattttt",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "3",
+    content: "boy what",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "4",
+    content: "hey what the heck",
+    sender: "what",
+    recipient: "john",
+    date: "19-2-2009",
+  },
+  {
+    id: "5",
+    content: "hey whaattttt",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "6",
+    content: "boy what",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "7",
+    content: "hey what the heck",
+    sender: "what",
+    recipient: "john",
+    date: "19-2-2009",
+  },
+  {
+    id: "8",
+    content: "hey whaattttt",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "9",
+    content: "boy haha",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+];
 
 function Messages() {
   const [messageBox, setMessageBox] = useState("");
@@ -9,43 +110,48 @@ function Messages() {
   const [messageData, setMessageData] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [isConnected, setIsConnected] = useState(socket.connected)
-  const username = localStorage.getItem("user")
+  const username = localStorage.getItem("user");
 
   useEffect(() => {
-    axios.post("https://hacktxserver.fly.dev/getUserChats", {'username': username})
-    .then((response) => {
-      setContactData(response.data)
-    }).catch((error) => {
-      console.error("Error fetching contacts: " + error)
-    });
-  }, [])
-
-  useEffect(() => {
-    if(selectedContact) {
-      axios.get("https://hacktxserver.fly.dev/getUserMessages", {
-        params: {
-          sender_id: username,
-          recipient_id: selectedContact.username
-        },
-      }).then((response) => {
-        setMessageData(response.data);
-      }).catch((error) => {
-        console.error("Error fetching this contacts messages: " + error)
+    axios
+      .post("https://hacktxserver.fly.dev/getUserChats", { username: username })
+      .then((response) => {
+        setContactData(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching contacts: " + error);
       });
+  }, []);
+
+  useEffect(() => {
+    if (selectedContact) {
+      axios
+        .get("https://hacktxserver.fly.dev/getUserMessages", {
+          params: {
+            sender_id: username,
+            recipient_id: selectedContact.username,
+          },
+        })
+        .then((response) => {
+          setMessageData(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching this contacts messages: " + error);
+        });
     }
     socket.on("connect_error", (error) => {
       console.error("WebSocket connection error:", error);
     });
     socket.on("receive_message", (message) => {
-      setMessageData([...messageData, message])
+      setMessageData([...messageData, message]);
     });
     return () => {
       socket.disconnect();
-    }
+    };
   }, [selectedContact, username]);
 
   const sendMessage = () => {
-    if(selectedContact && messageBox.trim() !== "") {
+    if (selectedContact && messageBox.trim() !== "") {
       const newMessage = {
         sender_id: username,
         recipient_id: selectedContact.username,
@@ -53,9 +159,11 @@ function Messages() {
       };
       socket.emit("send_message", newMessage);
       setMessageData([...messageData, newMessage]);
-      setMessageBox("")
+      setMessageBox("");
     }
   };
+
+  const reversedMessages = messageData.toReversed();
 
   return (
     <div className="Messages">
@@ -79,7 +187,14 @@ function Messages() {
             <ul>
               {contactData.map((contact) => {
                 return (
-                  <li key={contact.name} className="user-contact">
+                  <li
+                    key={contact.name}
+                    className={
+                      contact.name == "john"
+                        ? "user-contact selected-contact"
+                        : "user-contact"
+                    }
+                  >
                     <p>
                       <strong>{contact.name}</strong>
                     </p>
@@ -92,10 +207,12 @@ function Messages() {
             </ul>
           </div>
           <div className="chat-header">
-            <h2>{selectedContact ? selectedContact.username : "Select Contact"}</h2>
+            <h2>
+              {selectedContact ? selectedContact.username : "Select Contact"}
+            </h2>
           </div>
           <div className="chat">
-            {messageData.map((message) => {
+            {reversedMessages.map((message) => {
               return (
                 <div key={message.id} className="user-message">
                   <p className="sender-info">{`${message.sender} - ${message.date}`}</p>
@@ -104,13 +221,16 @@ function Messages() {
               );
             })}
           </div>
-          <div className="message-bar">
-            <input
-              type="text"
-              value={messageBox}
-              onChange={(e) => setMessageBox(e.target.value)}
-            />
-            <button onClick={sendMessage}>submit</button>
+          <div className="message-section">
+            <label className="message-bar" htmlFor="message-box">
+              <input
+                id="message-box"
+                type="text"
+                value={messageBox}
+                onChange={(e) => setMessageBox(e.target.value)}
+              />
+              <button onClick={sendMessage}></button>
+            </label>
           </div>
         </div>
         <div className="relationship-progress">

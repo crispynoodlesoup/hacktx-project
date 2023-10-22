@@ -1,46 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-const contactData = [
-  {
-    name: "john",
-    lastMessage: "boy what",
-  },
-  {
-    name: "keb",
-    lastMessage: "bom what",
-  },
-  {
-    name: "pee",
-    lastMessage: "boi what",
-  },
-];
-const messageData = [
-  {
-    id: "1",
-    content: "hey what the heck",
-    sender: "what",
-    recipient: "john",
-    date: "19-2-2009",
-  },
-  {
-    id: "2",
-    content: "hey whaattttt",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-  {
-    id: "3",
-    content: "boy what",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-];
+import axios from "axios";
+import io from "socket.io-client"
 
 function Messages() {
-  const [messageBox, setMessageBox] = useState();
+  const [messageBox, setMessageBox] = useState("");
+  const [contactData, setContactData] = useState([]);
+  const [messageData, setMessageData] = useState([]);
+  const [selectedContact, setSelectedContact] = useState(null);
+  const username = localStorage.getItem("user")
+
+  useEffect(() => {
+    axios.post("http://127.0.0.1:5000/getUserChats", {'username': username})
+    .then((response) => {
+      setContactData(response.data)
+    }).catch((error) => {
+      console.error("Error fetching contacts: " + error)
+    });
+  }, [])
+
+  useEffect(() => {
+    if(selectedContact) {
+      axios.get("http://127.0.0.1:5000/getUserMessages", {
+        params: {
+          sender_id: username,
+          recipient_id: selectedContact.username
+        },
+      }).then((response) => {
+        setMessageData(response.data);
+      }).catch((error) => {
+        console.error("Error fetching this contacts messages: " + error)
+      });
+    }
+    const socket = io("http://127.0.0.1:5000");
+    socket.on("receive_message", (message) => {
+      setMessageData([...messageData, message])
+    });
+    return () => {
+      socket.disconnect();
+    }
+  }, [selectedContact, username]);
+
+  const sendMessage = () => {
+    if(selectedContact && messageBox.trim() !== "") {
+      const newMessage = {
+        sender_id: username,
+        recipient_id: selectedContact.username,
+        message: messageBox,
+      };
+      socket.emit("send_message", newMessage);
+      setMessageData([...messageData, newMessage]);
+      setMessageBox("")
+    }
+  };
 
   return (
     <div className="Messages">
@@ -77,7 +89,7 @@ function Messages() {
             </ul>
           </div>
           <div className="chat-header">
-            <h2>John</h2>
+            <h2>{selectedContact ? selectedContact.username : "Select Contact"}</h2>
           </div>
           <div className="chat">
             {messageData.map((message) => {
@@ -95,7 +107,7 @@ function Messages() {
               value={messageBox}
               onChange={(e) => setMessageBox(e.target.value)}
             />
-            <button>submit</button>
+            <button onClick={sendMessage}>submit</button>
           </div>
         </div>
         <div className="relationship-progress">

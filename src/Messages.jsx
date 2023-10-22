@@ -226,7 +226,7 @@ function Messages() {
                 value={messageBox}
                 onChange={(e) => setMessageBox(e.target.value)}
               />
-              <button Click={sendMessage}></button>
+              <button onClick={sendMessage}></button>
             </label>
           </div>
         </div>

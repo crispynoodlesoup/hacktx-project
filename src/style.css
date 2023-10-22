@@ -52,6 +52,11 @@ nav {
   margin: 0 auto 16px;
 }
 
+.nav-icon {
+  width: 60px;
+  margin: 4px auto -4px;
+}
+
 nav ul {
   display: flex;
   flex-direction: column;

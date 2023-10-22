@@ -7,6 +7,9 @@ import logo from "./assets/canva/healthy-build-white-icon.png";
 import truck1 from "./assets/canva/trucks.png";
 import truck2 from "./assets/canva/trucks2.png";
 import truck3 from "./assets/canva/trucks3.png";
+import homeIcon from "./assets/canva/home.png";
+import messageIcon from "./assets/canva/message.png";
+import accountIcon from "./assets/canva/account.png";
 
 function Messages() {
   const [messageBox, setMessageBox] = useState("");
@@ -98,14 +101,23 @@ function Messages() {
       <nav>
         <img className="nav-logo" src={logo} alt="" />
         <ul>
-          <Link to="../home">
-            <li>Home</li>
+        <Link to="../home">
+            <li>
+              <img className="nav-icon" src={homeIcon} alt="" />
+              <p>Home</p>
+            </li>
           </Link>
           <Link to="../messages">
-            <li className="selected-page">Messages</li>
+            <li className="selected-page">
+              <img className="nav-icon" src={messageIcon} alt="" />
+              <p>Messages</p>
+            </li>
           </Link>
           <Link to="../profile">
-            <li>Profile</li>
+            <li>
+              <img className="nav-icon" src={accountIcon} alt="" />
+              <p>Profile</p>
+            </li>
           </Link>
         </ul>
       </nav>

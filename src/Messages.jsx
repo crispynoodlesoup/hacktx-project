@@ -4,6 +4,9 @@ import axios from "axios";
 import { socket } from "./socket";
 import homeCity from "./assets/canva/home_city.png";
 import logo from "./assets/canva/healthy-build-white-icon.png";
+import truck1 from "./assets/canva/trucks.png";
+import truck2 from "./assets/canva/trucks2.png";
+import truck3 from "./assets/canva/trucks3.png";
 
 function Messages() {
   const [messageBox, setMessageBox] = useState("");
@@ -11,7 +14,10 @@ function Messages() {
   const [messageData, setMessageData] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [isConnected, setIsConnected] = useState(socket.connected);
+  const [progress, setProgress] = useState(0);
   const username = localStorage.getItem("user");
+
+  useEffect(() => setProgress(40), []);
 
   const handleContactClick = (contactname) => {
     setSelectedContact(contactname)
@@ -19,7 +25,7 @@ function Messages() {
 
   useEffect(() => {
     axios
-      .post("http://127.0.0.1:5000/getUserChats", { username: username, })
+      .post("https://hacktxserver.fly.dev/getUserChats", { username: username, })
       .then((response) => {
         setContactData(response.data)
       })
@@ -31,7 +37,7 @@ function Messages() {
   useEffect(() => {
     if (selectedContact) {
       axios
-        .post("http://127.0.0.1:5000/getUserMessages", { sender_id: selectedContact, recipient_id: username})
+        .post("https://hacktxserver.fly.dev/getUserMessages", { sender_id: selectedContact, recipient_id: username})
         .then((response) => {
           console.log(response.data)
           setMessageData(response.data);
@@ -140,11 +146,15 @@ function Messages() {
           </div>
         </div>
         <div className="relationship-progress">
-          <div>
+          <div className="relationship-level">
             <h3>Level 2</h3>
           </div>
-          <div>
-            <p>100%!</p>
+          <div className="relationship-bottom">
+            <img className="truck" src={progress < 33 ? truck1 : progress < 66 ? truck2 : truck3} alt="" />
+            <p className="progress">{progress}%!</p>
+            <div className="progress-bar">
+              <div style={{width: `${progress}%`}}></div>
+            </div>
           </div>
         </div>
         </div>

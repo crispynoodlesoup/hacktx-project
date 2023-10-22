@@ -40,9 +40,15 @@ ul {
 
 nav {
     background-color: #EA9A55;
-    display: grid;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 32px 0px;
+}
+
+.nav-logo {
+    width: 100px;
+    margin: 0 auto 16px;
 }
 
 nav ul {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import closeImg from "./assets/close-thick.svg";
+import logo from "./assets/canva/healthy-build-white-icon.png"
 
 function Home() {
   const name = localStorage.getItem("user");
@@ -50,6 +51,7 @@ function Home() {
   return (
     <div className="Home">
       <nav>
+        <img className="nav-logo" src={logo} alt="" />
         <ul>
           <Link to="../home">
             <li className="selected-page">Home</li>

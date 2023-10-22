@@ -60,19 +60,21 @@ function Messages() {
       <main className="messages-page">
         <div className="messaging-main-div">
           <div className="contacts">
-            <h3>Contacts</h3>
-            {contactData.map((contact) => {
-              return (
-                <div key={contact.name} className="user-contact">
-                  <p>
-                    <strong>{contact.name}</strong>
-                  </p>
-                  <p>
-                    <em>{contact.lastMessage}</em>
-                  </p>
-                </div>
-              );
-            })}
+            <h3 className="contacts-header">Contacts</h3>
+            <ul>
+              {contactData.map((contact) => {
+                return (
+                  <li key={contact.name} className="user-contact">
+                    <p>
+                      <strong>{contact.name}</strong>
+                    </p>
+                    <p>
+                      <em>{contact.lastMessage}</em>
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
           <div className="chat-header">
             <h2>John</h2>
@@ -81,8 +83,8 @@ function Messages() {
             {messageData.map((message) => {
               return (
                 <div key={message.id} className="user-message">
-                  <p>{`${message.sender} - ${message.date}`}</p>
-                  <p>{message.content}</p>
+                  <p className="sender-info">{`${message.sender} - ${message.date}`}</p>
+                  <p className="message-content">{message.content}</p>
                 </div>
               );
             })}

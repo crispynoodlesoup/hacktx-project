@@ -161,26 +161,66 @@ Link {
     grid-column: 1/2;
 }
 
-.user-contact {
+.contacts-header {
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    text-decoration: underline;
+}
 
+.user-contact {
+    padding: 16px;
+}
+
+.user-contact:hover {
+    background-color: #fad59a;
 }
 
 .chat-header {
+    padding: 16px;
+    display: grid;
+    place-content: center;
     background-color: #fdddab;
 }
 
 .chat {
+    overflow-y: scroll;
+    padding: 16px;
     background-color: #fdddab;
 }
 
 .user-message {
+    margin-top: 8px;
 
+}
+
+.sender-info {
+    font-size: 12px;
+    font-weight: bold;
+    
+}
+
+.message-content {
+    padding: 8px;
+    border-radius: 8px;
+    width: fit-content;
+    background-color: #f1cc90;
 }
 
 .message-bar {
     background-color: #fdddab;
+    display: flex;
+    place-content: center;
+    align-items: center;
+}
+
+.message-bar input {
+    background-color: #f1cc90;
+    border: none;
 }
 
 .relationship-progress {
-
+    padding: 32px;
+    background-color: #fdddab;
+    border-radius: 16px;
 }

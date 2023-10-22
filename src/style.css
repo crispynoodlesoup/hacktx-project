@@ -283,15 +283,12 @@ Link {
   grid-column: 1/2;
 }
 
-.contacts ul {
-  overflow-y: scroll;
-}
-
 .contacts-header {
   background-color: #ea9a55;
   text-align: center;
-  padding: 18px;
+  padding: 16px;
   color: white;
+  border-bottom: 2px solid #945722;
 }
 
 .user-contact {

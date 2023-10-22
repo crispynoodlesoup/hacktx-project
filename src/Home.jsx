@@ -7,6 +7,7 @@ function Home() {
   const [posts, setPosts] = useState([]);
   const [modalPost, setModalPost] = useState(null);
   const [replyText, setReplyText] = useState();
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const fetchPosts = async () => {
     try {
@@ -42,6 +43,10 @@ function Home() {
     hideModal();
   }
 
+  function handleLogout() {
+    // server code
+  }
+
   return (
     <div className="Home">
       <nav>
@@ -60,9 +65,18 @@ function Home() {
       <main className="home-page">
         <section className="forum-header">
           <h2>Welcome back {name}!</h2>
-          <div className="account-div">
-            <p>{name}</p>
-            <div className="pfp"></div>
+          <div className="account-wrapper">
+            <div className="account-div" onClick={() => setShowDropdown(!showDropdown)}>
+              <p>{name}</p>
+              <div className="pfp"></div>
+            </div>
+            { showDropdown &&
+              <ul className="account-dropdown">
+              <li>Set status</li>
+              <li>View profile</li>
+              <li onClick={handleLogout}>Logout</li>
+            </ul>
+          }
           </div>
         </section>
         <section className="forum">
@@ -82,15 +96,31 @@ function Home() {
           {modalPost && (
             <div className="modal">
               <div className="modal-content">
-                <img className="close-modal" src={closeImg} alt="" onClick={hideModal} />
+                <img
+                  className="close-modal"
+                  src={closeImg}
+                  alt=""
+                  onClick={hideModal}
+                />
                 <div className="post-content">
                   <h3>{modalPost.title}</h3>
                   <h5>From: {modalPost.user}</h5>
                   <p>{modalPost.content}</p>
                 </div>
-                <form className="reply-form" onSubmit={(e) => e.preventDefault()}>
-                  <textarea value={replyText} onChange={(e) => setReplyText(e.target.value)} id="reply-area" cols="30" rows="10" />
-                  <button className="reply-button" onClick={handleReply}>send reply</button>
+                <form
+                  className="reply-form"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  <textarea
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    id="reply-area"
+                    cols="30"
+                    rows="10"
+                  />
+                  <button className="reply-button" onClick={handleReply}>
+                    send reply
+                  </button>
                 </form>
               </div>
             </div>

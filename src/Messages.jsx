@@ -3,107 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { socket } from "./socket";;
 
-const contactData = [
-  {
-    name: "john",
-    lastMessage: "boy what",
-  },
-  {
-    name: "keb",
-    lastMessage: "bom what",
-  },
-  {
-    name: "pee",
-    lastMessage: "boi what",
-  },
-];
-const messageData = [
-  {
-    id: "1",
-    content: "hey what the heck",
-    sender: "what",
-    recipient: "john",
-    date: "19-2-2009",
-  },
-  {
-    id: "2",
-    content: "hey whaattttt",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-  {
-    id: "3",
-    content: "boy what",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-  {
-    id: "1",
-    content: "hey what the heck",
-    sender: "what",
-    recipient: "john",
-    date: "19-2-2009",
-  },
-  {
-    id: "2",
-    content: "hey whaattttt",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-  {
-    id: "3",
-    content: "boy what",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-  {
-    id: "4",
-    content: "hey what the heck",
-    sender: "what",
-    recipient: "john",
-    date: "19-2-2009",
-  },
-  {
-    id: "5",
-    content: "hey whaattttt",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-  {
-    id: "6",
-    content: "boy what",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-  {
-    id: "7",
-    content: "hey what the heck",
-    sender: "what",
-    recipient: "john",
-    date: "19-2-2009",
-  },
-  {
-    id: "8",
-    content: "hey whaattttt",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-  {
-    id: "9",
-    content: "boy haha",
-    sender: "john",
-    recipient: "what",
-    date: "19-2-2009",
-  },
-];
-
 function Messages() {
   const [messageBox, setMessageBox] = useState("");
   const [contactData, setContactData] = useState([]);
@@ -112,27 +11,27 @@ function Messages() {
   const [isConnected, setIsConnected] = useState(socket.connected)
   const username = localStorage.getItem("user");
 
+  const handleContactClick = (contactname) => {
+    setSelectedContact(contactname)
+  }
+
   useEffect(() => {
     axios
-      .post("https://hacktxserver.fly.dev/getUserChats", { username: username })
+      .post("http://127.0.0.1:5000/getUserChats", { username: username, })
       .then((response) => {
-        setContactData(response.data);
+        setContactData(response.data)
       })
       .catch((error) => {
         console.error("Error fetching contacts: " + error);
       });
-  }, []);
+  }, [username]);
 
   useEffect(() => {
     if (selectedContact) {
       axios
-        .get("https://hacktxserver.fly.dev/getUserMessages", {
-          params: {
-            sender_id: username,
-            recipient_id: selectedContact.username,
-          },
-        })
+        .post("http://127.0.0.1:5000/getUserMessages", { sender_id: selectedContact, recipient_id: username})
         .then((response) => {
+          console.log(response.data)
           setMessageData(response.data);
         })
         .catch((error) => {
@@ -143,7 +42,7 @@ function Messages() {
       console.error("WebSocket connection error:", error);
     });
     socket.on("receive_message", (message) => {
-      setMessageData([...messageData, message]);
+      setMessageData((prevMessageData) => [...prevMessageData, message]);
     });
     return () => {
       socket.disconnect();
@@ -158,12 +57,12 @@ function Messages() {
         message: messageBox,
       };
       socket.emit("send_message", newMessage);
-      setMessageData([...messageData, newMessage]);
+      setMessageData((prevMessageData) => [...messageData, newMessage]);
       setMessageBox("");
     }
   };
 
-  const reversedMessages = messageData.toReversed();
+  const reversedMessages = messageData.slice().reverse()
 
   return (
     <div className="Messages">
@@ -185,38 +84,35 @@ function Messages() {
           <div className="contacts">
             <h3 className="contacts-header">Contacts</h3>
             <ul>
-              {contactData.map((contact) => {
-                return (
-                  <li
-                    key={contact.name}
-                    className={
-                      contact.name == "john"
-                        ? "user-contact selected-contact"
-                        : "user-contact"
-                    }
-                  >
-                    <p>
-                      <strong>{contact.name}</strong>
-                    </p>
-                    <p>
-                      <em>{contact.lastMessage}</em>
-                    </p>
-                  </li>
-                );
-              })}
+              {contactData.map((contact) => (
+                <li key={contact.username} className={
+                  contact.name != selectedContact
+                    ? "user-contact selected-contact"
+                    : "user-contact"
+                }
+                onClick = {() => handleContactClick(contact.username)}
+                > 
+                  <p>
+                    <strong>{contact.username}</strong>
+                  </p>
+                  <p>
+                    <em>{contact.message}</em>
+                  </p>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="chat-header">
             <h2>
-              {selectedContact ? selectedContact.username : "Select Contact"}
+              {selectedContact ? selectedContact : "Select Contact"}
             </h2>
           </div>
           <div className="chat">
             {reversedMessages.map((message) => {
               return (
                 <div key={message.id} className="user-message">
-                  <p className="sender-info">{`${message.sender} - ${message.date}`}</p>
-                  <p className="message-content">{message.content}</p>
+                  <p className="sender-info">{`${message.sender_id} - ${message.timestamp}`}</p>
+                  <p className="message-content">{message.text}</p>
                 </div>
               );
             })}

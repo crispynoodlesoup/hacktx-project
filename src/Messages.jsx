@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { socket } from "./socket";;
+import { socket } from "./socket";
+import homeCity from "./assets/canva/home_city.png";
 
 const contactData = [
   {
@@ -109,7 +110,7 @@ function Messages() {
   const [contactData, setContactData] = useState([]);
   const [messageData, setMessageData] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
-  const [isConnected, setIsConnected] = useState(socket.connected)
+  const [isConnected, setIsConnected] = useState(socket.connected);
   const username = localStorage.getItem("user");
 
   useEffect(() => {
@@ -181,66 +182,69 @@ function Messages() {
         </ul>
       </nav>
       <main className="messages-page">
-        <div className="messaging-main-div">
-          <div className="contacts">
-            <h3 className="contacts-header">Contacts</h3>
-            <ul>
-              {contactData.map((contact) => {
+        <div className="messaging-wrapper">
+          <div className="messaging-main-div">
+            <div className="contacts">
+              <h3 className="contacts-header">Contacts</h3>
+              <ul>
+                {contactData.map((contact) => {
+                  return (
+                    <li
+                      key={contact.name}
+                      className={
+                        contact.name == "john"
+                          ? "user-contact selected-contact"
+                          : "user-contact"
+                      }
+                    >
+                      <p>
+                        <strong>{contact.name}</strong>
+                      </p>
+                      <p>
+                        <em>{contact.lastMessage}</em>
+                      </p>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+            <div className="chat-header">
+              <h2>
+                {selectedContact ? selectedContact.username : "Select Contact"}
+              </h2>
+            </div>
+            <div className="chat">
+              {reversedMessages.map((message) => {
                 return (
-                  <li
-                    key={contact.name}
-                    className={
-                      contact.name == "john"
-                        ? "user-contact selected-contact"
-                        : "user-contact"
-                    }
-                  >
-                    <p>
-                      <strong>{contact.name}</strong>
-                    </p>
-                    <p>
-                      <em>{contact.lastMessage}</em>
-                    </p>
-                  </li>
+                  <div key={message.id} className="user-message">
+                    <p className="sender-info">{`${message.sender} - ${message.date}`}</p>
+                    <p className="message-content">{message.content}</p>
+                  </div>
                 );
               })}
-            </ul>
+            </div>
+            <div className="message-section">
+              <label className="message-bar" htmlFor="message-box">
+                <input
+                  id="message-box"
+                  type="text"
+                  value={messageBox}
+                  onChange={(e) => setMessageBox(e.target.value)}
+                />
+                <button onClick={sendMessage}></button>
+              </label>
+            </div>
           </div>
-          <div className="chat-header">
-            <h2>
-              {selectedContact ? selectedContact.username : "Select Contact"}
-            </h2>
-          </div>
-          <div className="chat">
-            {reversedMessages.map((message) => {
-              return (
-                <div key={message.id} className="user-message">
-                  <p className="sender-info">{`${message.sender} - ${message.date}`}</p>
-                  <p className="message-content">{message.content}</p>
-                </div>
-              );
-            })}
-          </div>
-          <div className="message-section">
-            <label className="message-bar" htmlFor="message-box">
-              <input
-                id="message-box"
-                type="text"
-                value={messageBox}
-                onChange={(e) => setMessageBox(e.target.value)}
-              />
-              <button onClick={sendMessage}></button>
-            </label>
+          <div className="relationship-progress">
+            <div>
+              <h3>Level 2</h3>
+            </div>
+            <div>
+              <p>100%!</p>
+            </div>
           </div>
         </div>
-        <div className="relationship-progress">
-          <div>
-            <h3>Level 2</h3>
-          </div>
-          <div>
-            <p>100%!</p>
-          </div>
-        </div>
+        <img className="home-city" src={homeCity} alt="" />
       </main>
     </div>
   );

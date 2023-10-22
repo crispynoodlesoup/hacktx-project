@@ -235,10 +235,20 @@ Link {
 
 /* message page */
 .messages-page {
+    display: grid;
+    grid-template-rows: 1fr min-content;
+}
+
+.messaging-wrapper {
     padding: 32px;
     display: flex;
     align-items: center;
     gap: 32px;
+}
+
+.home-city {
+    width: 100%;
+    height: auto;
 }
 
 .messaging-main-div {

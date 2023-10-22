@@ -256,6 +256,7 @@ Link {
   padding: 32px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 32px;
 }
 
@@ -272,7 +273,7 @@ Link {
   grid-template-rows: 56px 1fr 48px;
   background-color: #ea9a55;
   overflow: hidden;
-  gap: 4px;
+  gap: 3px;
   border: 2px solid #ea9a55;
 }
 
@@ -290,7 +291,7 @@ Link {
   background-color: #ea9a55;
   text-align: center;
   padding: 18px;
-  text-decoration: underline;
+  color: white;
 }
 
 .user-contact {
@@ -310,13 +311,13 @@ Link {
   padding: 16px;
   display: grid;
   place-content: center;
-  background-color: #ffebca;
+  background-color: #fdddab;
 }
 
 .chat {
   overflow-y: scroll;
   padding: 16px;
-  background-color: #ffebca;
+  background-color: #fdddab;
 
   display: flex;
   flex-direction: column-reverse;
@@ -356,7 +357,7 @@ Link {
 }
 
 .message-section {
-  background-color: #ffd287;
+  background-color: #fdddab;
   display: flex;
   place-content: center;
   align-items: center;
@@ -398,9 +399,45 @@ Link {
 }
 
 .relationship-progress {
-  padding: 32px;
+  overflow: hidden;
+  text-align: center;
   background-color: #fdddab;
   border-radius: 16px;
+}
+
+.relationship-level {
+  background-color: #ea9a55;
+  color: white;
+  padding: 16px;
+}
+
+.relationship-bottom {
+  padding: 24px;
+}
+
+.truck { 
+  width: 200px;
+}
+
+.progress-bar {
+  overflow: hidden;
+  height: 16px;
+  width: 150px;
+  background-color: grey;
+  border-radius: 6px;
+  margin: 4px auto 0;
+}
+
+.progress {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.progress-bar div {
+  width: 0;
+  height: 100%;
+  background-color: #ea9a55;
+  transition: all 0.3s;
 }
 
 /* login page */

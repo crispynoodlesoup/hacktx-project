@@ -1,8 +1,29 @@
+import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 
 function Home() {
   const name = localStorage.getItem("user")
-  
+  const [posts, setPosts] = useState([]);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/getPosts");
+      if(response.ok){
+        const data = await response.json();
+        setPosts(data);
+        console.log(data)
+      }else{
+        console.error("Failed to fetch posts");
+      }
+    } catch (error) {
+      console.error("Error fetching posts: " + error)
+    }
+  }
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   return (
     <div className="Home">
       <nav>
@@ -22,77 +43,19 @@ function Home() {
         <section className="forum-header">
           <h2>Welcome back {name}!</h2>
           <div className="account-div">
-            <p>crispnoodlesoup</p>
+            <p>{name}</p>
             <div className="pfp"></div>
           </div>
         </section>
         <section className="forum">
           <div className="posts">
-            <div className="user-post">
-              <h3>How do I construc</h3>
-              <h5>From: bender9000</h5>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Asperiores nemo soluta non deserunt rem esse quia expedita
-                deleniti ullam amet, repellat doloribus totam earum fuga
-                consectetur cupiditate. Quibusdam aspernatur accusantium,
-                nostrum minima quidem ipsa, officia eum sint culpa quisquam
-                quas, et voluptatibus corrupti. Quaerat, adipisci reiciendis
-                quis esse iure numquam!
-              </p>
-            </div>
-            <div className="user-post">
-              <h3>How do I construc</h3>
-              <h5>From: bender9000</h5>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Asperiores nemo soluta non deserunt rem esse quia expedita
-                deleniti ullam amet, repellat doloribus totam earum fuga
-                consectetur cupiditate. Quibusdam aspernatur accusantium,
-                nostrum minima quidem ipsa, officia eum sint culpa quisquam
-                quas, et voluptatibus corrupti. Quaerat, adipisci reiciendis
-                quis esse iure numquam!
-              </p>
-            </div>
-            <div className="user-post">
-              <h3>How do I construc</h3>
-              <h5>From: bender9000</h5>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Asperiores nemo soluta non deserunt rem esse quia expedita
-                deleniti ullam amet, repellat doloribus totam earum fuga
-                consectetur cupiditate. Quibusdam aspernatur accusantium,
-                nostrum minima quidem ipsa, officia eum sint culpa quisquam
-                quas, et voluptatibus corrupti. Quaerat, adipisci reiciendis
-                quis esse iure numquam!
-              </p>
-            </div>
-            <div className="user-post">
-              <h3>How do I construc</h3>
-              <h5>From: bender9000</h5>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Asperiores nemo soluta non deserunt rem esse quia expedita
-                deleniti ullam amet, repellat doloribus totam earum fuga
-                consectetur cupiditate. Quibusdam aspernatur accusantium,
-                nostrum minima quidem ipsa, officia eum sint culpa quisquam
-                quas, et voluptatibus corrupti. Quaerat, adipisci reiciendis
-                quis esse iure numquam!
-              </p>
-            </div>
-            <div className="user-post">
-              <h3>How do I construc</h3>
-              <h5>From: bender9000</h5>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Asperiores nemo soluta non deserunt rem esse quia expedita
-                deleniti ullam amet, repellat doloribus totam earum fuga
-                consectetur cupiditate. Quibusdam aspernatur accusantium,
-                nostrum minima quidem ipsa, officia eum sint culpa quisquam
-                quas, et voluptatibus corrupti. Quaerat, adipisci reiciendis
-                quis esse iure numquam!
-              </p>
-            </div>
+              {posts.map((post) => (
+                <div className="user-post" key={post._id.$oid}>
+                  <h3>{post.title}</h3>
+                  <h5>From: {post.user}</h5>
+                  <p>{post.content}</p>
+                </div>
+              ))}
           </div>
         </section>
       </main>

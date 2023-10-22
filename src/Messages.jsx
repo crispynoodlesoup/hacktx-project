@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { socket } from "./socket";
 import io from "socket.io-client"
 import homeCity from "./assets/canva/home_city.png";
 import logo from "./assets/canva/healthy-build-white-icon.png";
@@ -17,7 +16,7 @@ function Messages() {
   const [contactData, setContactData] = useState([]);
   const [messageData, setMessageData] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
-  const socket = io("https://hacktxserver.fly.dev");
+  const [socket, setSocket] = useState(null)
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [progress, setProgress] = useState(0);
   const username = localStorage.getItem("user");
@@ -51,12 +50,6 @@ function Messages() {
           console.error("Error fetching this contacts messages: " + error);
         });
     }
-    socket.on("connect_error", (error) => {
-      console.error("WebSocket connection error:", error);
-    });
-    socket.on("receive_message", (message) => {
-      setMessageData((prevMessageData) => [...prevMessageData, message]);
-    });
     return () => {
       socket.disconnect();
     };
@@ -84,11 +77,20 @@ function Messages() {
   };
 
   useEffect(() => {
+    const newSocket = io('https://hacktxserver.fly.dev:5000')
+    setSocket(newSocket)
+
     socket.on("receive_message", (message) => {
       setMessageData((prevMessageData) => [...prevMessageData, message])
     })
+    socket.on("connect_error", (error) => {
+      console.error("WebSocket connection error:", error);
+    });
+    socket.on("receive_message", (message) => {
+      setMessageData((prevMessageData) => [...prevMessageData, message]);
+    });
     return () => {
-      socket.disconnect90
+      socket.disconnect()
     }
   }, [selectedContact, username])
 

@@ -65,7 +65,7 @@ function Messages() {
         message: messageBox,
       };
       axios
-      .post("http://127.0.0.1:5000/sendMessage", newMessage)
+      .post("https://hacktxserver.fly.dev/sendMessage", newMessage)
       .then((response) => {
         setMessageData(response.data);
         console.log("Message sent" + response.data)

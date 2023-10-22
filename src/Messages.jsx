@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import io from "socket.io-client";
+import { socket } from "./socket";;
 
 const contactData = [
   {
@@ -109,6 +109,7 @@ function Messages() {
   const [contactData, setContactData] = useState([]);
   const [messageData, setMessageData] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
+  const [isConnected, setIsConnected] = useState(socket.connected)
   const username = localStorage.getItem("user");
 
   useEffect(() => {
@@ -138,7 +139,9 @@ function Messages() {
           console.error("Error fetching this contacts messages: " + error);
         });
     }
-    const socket = io("https://hacktxserver.fly.dev/");
+    socket.on("connect_error", (error) => {
+      console.error("WebSocket connection error:", error);
+    });
     socket.on("receive_message", (message) => {
       setMessageData([...messageData, message]);
     });

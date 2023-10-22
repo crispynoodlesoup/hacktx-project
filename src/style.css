@@ -106,11 +106,19 @@ nav ul li:hover {
     height: 42px;
     width: 250px;
     border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .account-div:hover {
     cursor: pointer;
     background-color: #f0f0f0;
+}
+
+.account-div img {
+    width: 24px;
+    height: 24px;
 }
 
 .account-dropdown {

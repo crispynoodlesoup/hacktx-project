@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import closeImg from "./assets/close-thick.svg";
-import logo from "./assets/canva/healthy-build-white-icon.png"
+import logo from "./assets/canva/healthy-build-white-icon.png";
+import downIcon from "./assets/chevron-down.svg";
+import upIcon from "./assets/chevron-up.svg";
 
 function Home() {
   const name = localStorage.getItem("user");
@@ -70,7 +72,7 @@ function Home() {
           <div className="account-wrapper">
             <div className="account-div" onClick={() => setShowDropdown(!showDropdown)}>
               <p>{name}</p>
-              <div className="pfp"></div>
+              <img src={showDropdown ? downIcon : upIcon} alt="" />
             </div>
             { showDropdown &&
               <ul className="account-dropdown">

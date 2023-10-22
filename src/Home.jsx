@@ -18,7 +18,7 @@ function Home() {
           </Link>
         </ul>
       </nav>
-      <main>
+      <main className="home-page">
         <section className="forum-header">
           <h2>Welcome back {name}!</h2>
           <div className="account-div">

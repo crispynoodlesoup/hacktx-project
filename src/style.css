@@ -22,6 +22,22 @@ ul {
     width: 100vw;
 }
 
+.Profile{
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+.Messages{
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
 nav {
     background-color: #868951;
     display: grid;

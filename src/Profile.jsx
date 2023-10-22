@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Profile() {
   return (
-    <>
+    <div className="Profile">
       <nav>
         <ul>
           <Link to="../home">
@@ -17,7 +17,7 @@ function Profile() {
         </ul>
       </nav>
       <main className="profile-page"></main>
-    </>
+    </div>
   );
 }
 

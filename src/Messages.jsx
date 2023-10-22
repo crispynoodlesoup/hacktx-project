@@ -43,7 +43,7 @@ function Messages() {
   const [messageBox, setMessageBox] = useState();
 
   return (
-    <>
+    <div className="Messages">
       <nav>
         <ul>
           <Link to="../home">
@@ -105,7 +105,7 @@ function Messages() {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }
 

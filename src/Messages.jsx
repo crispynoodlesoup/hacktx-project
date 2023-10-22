@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { socket } from "./socket";
 import homeCity from "./assets/canva/home_city.png";
+import logo from "./assets/canva/healthy-build-white-icon.png";
 
 const contactData = [
   {
@@ -169,6 +170,7 @@ function Messages() {
   return (
     <div className="Messages">
       <nav>
+        <img className="nav-logo" src={logo} alt="" />
         <ul>
           <Link to="../home">
             <li>Home</li>

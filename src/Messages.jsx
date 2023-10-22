@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import sendButton from "./assets/send-circle.svg";
 
 const contactData = [
   {
@@ -37,10 +38,75 @@ const messageData = [
     recipient: "what",
     date: "19-2-2009",
   },
+  {
+    id: "1",
+    content: "hey what the heck",
+    sender: "what",
+    recipient: "john",
+    date: "19-2-2009",
+  },
+  {
+    id: "2",
+    content: "hey whaattttt",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "3",
+    content: "boy what",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "4",
+    content: "hey what the heck",
+    sender: "what",
+    recipient: "john",
+    date: "19-2-2009",
+  },
+  {
+    id: "5",
+    content: "hey whaattttt",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "6",
+    content: "boy what",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "7",
+    content: "hey what the heck",
+    sender: "what",
+    recipient: "john",
+    date: "19-2-2009",
+  },
+  {
+    id: "8",
+    content: "hey whaattttt",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
+  {
+    id: "9",
+    content: "boy haha",
+    sender: "john",
+    recipient: "what",
+    date: "19-2-2009",
+  },
 ];
 
 function Messages() {
   const [messageBox, setMessageBox] = useState();
+
+  const reversedMessages = messageData.toReversed();
 
   return (
     <div className="Messages">
@@ -64,7 +130,7 @@ function Messages() {
             <ul>
               {contactData.map((contact) => {
                 return (
-                  <li key={contact.name} className="user-contact">
+                  <li key={contact.name} className={contact.name == "john" ? "user-contact selected-contact" : "user-contact"}>
                     <p>
                       <strong>{contact.name}</strong>
                     </p>
@@ -80,7 +146,7 @@ function Messages() {
             <h2>John</h2>
           </div>
           <div className="chat">
-            {messageData.map((message) => {
+            {reversedMessages.map((message) => {
               return (
                 <div key={message.id} className="user-message">
                   <p className="sender-info">{`${message.sender} - ${message.date}`}</p>
@@ -89,13 +155,16 @@ function Messages() {
               );
             })}
           </div>
-          <div className="message-bar">
-            <input
-              type="text"
-              value={messageBox}
-              onChange={(e) => setMessageBox(e.target.value)}
-            />
-            <button>submit</button>
+          <div className="message-section">
+            <label className="message-bar" htmlFor="message-box">
+              <input
+                id="message-box"
+                type="text"
+                value={messageBox}
+                onChange={(e) => setMessageBox(e.target.value)}
+              />
+              <button></button>
+            </label>
           </div>
         </div>
         <div className="relationship-progress">

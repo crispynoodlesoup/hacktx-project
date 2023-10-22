@@ -11,7 +11,7 @@ function Messages() {
   const username = localStorage.getItem("user")
 
   useEffect(() => {
-    axios.post("http://127.0.0.1:5000/getUserChats", {'username': username})
+    axios.post("https://hacktxserver.fly.dev/getUserChats", {'username': username})
     .then((response) => {
       setContactData(response.data)
     }).catch((error) => {
@@ -21,7 +21,7 @@ function Messages() {
 
   useEffect(() => {
     if(selectedContact) {
-      axios.get("http://127.0.0.1:5000/getUserMessages", {
+      axios.get("https://hacktxserver.fly.dev/getUserMessages", {
         params: {
           sender_id: username,
           recipient_id: selectedContact.username
@@ -32,7 +32,7 @@ function Messages() {
         console.error("Error fetching this contacts messages: " + error)
       });
     }
-    const socket = io("http://127.0.0.1:5000");
+    const socket = io("https://hacktxserver.fly.dev/");
     socket.on("receive_message", (message) => {
       setMessageData([...messageData, message])
     });

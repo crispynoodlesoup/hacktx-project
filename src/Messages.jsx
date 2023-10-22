@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
 const contactData = [
   {
     name: "john",
@@ -38,6 +40,8 @@ const messageData = [
 ];
 
 function Messages() {
+  const [messageBox, setMessageBox] = useState();
+
   return (
     <>
       <nav>
@@ -53,8 +57,8 @@ function Messages() {
           </Link>
         </ul>
       </nav>
-      <main>
-        <div>
+      <main className="messages-page">
+        <div className="messaging-main-div">
           <div className="contacts">
             <h3>Contacts</h3>
             {contactData.map((contact) => {
@@ -70,15 +74,34 @@ function Messages() {
               );
             })}
           </div>
-          <div className="direct-messaging">
+          <div className="chat-header">
+            <h2>John</h2>
+          </div>
+          <div className="chat">
             {messageData.map((message) => {
               return (
-                <div key={message.id} className="message">
+                <div key={message.id} className="user-message">
                   <p>{`${message.sender} - ${message.date}`}</p>
                   <p>{message.content}</p>
                 </div>
               );
             })}
+          </div>
+          <div className="message-bar">
+            <input
+              type="text"
+              value={messageBox}
+              onChange={(e) => setMessageBox(e.target.value)}
+            />
+            <button>submit</button>
+          </div>
+        </div>
+        <div className="relationship-progress">
+          <div>
+            <h3>Level 2</h3>
+          </div>
+          <div>
+            <p>100%!</p>
           </div>
         </div>
       </main>

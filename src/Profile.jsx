@@ -16,7 +16,7 @@ function Profile() {
           </Link>
         </ul>
       </nav>
-      <main></main>
+      <main className="profile-page"></main>
     </>
   );
 }

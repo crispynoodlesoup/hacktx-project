@@ -58,7 +58,7 @@ nav ul li:hover {
     background-color: #bec279;
 }
 
-main {
+.home-page {
     display: grid;
     grid-template-rows: 120px 1fr;
 }
@@ -116,4 +116,55 @@ Link {
     flex: 1 1 auto;
     overflow: hidden;
     text-overflow: hidden;
+}
+
+/* message page */
+.messages-page {
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    background-color: #ffebca;
+}
+
+.messaging-main-div {
+    height: 400px;
+    width: 600px;
+    display: grid; 
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 56px 1fr 48px;
+    background-color: #d8b376;
+    overflow: hidden;
+    border-radius: 16px;
+    gap: 4px;
+}
+
+.contacts {
+    background-color: #fdddab;
+    grid-row: 1/4;
+    grid-column: 1/2;
+}
+
+.user-contact {
+
+}
+
+.chat-header {
+    background-color: #fdddab;
+}
+
+.chat {
+    background-color: #fdddab;
+}
+
+.user-message {
+
+}
+
+.message-bar {
+    background-color: #fdddab;
+}
+
+.relationship-progress {
+
 }

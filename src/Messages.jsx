@@ -55,11 +55,17 @@ function Messages() {
     if (selectedContact && messageBox.trim() !== "") {
       const newMessage = {
         sender_id: username,
-        recipient_id: selectedContact.username,
+        recipient_id: selectedContact,
         message: messageBox,
       };
-      socket.emit("send_message", newMessage);
-      setMessageData((prevMessageData) => [...messageData, newMessage]);
+      axios
+      .post("http://127.0.0.1:5000/sendMessage", newMessage)
+      .then((response) => {
+        setMessageData(response.data);
+        console.log("Message sent" + response.data)
+      }).catch((error) => {
+        console.error("Error sending message: " + error)
+      })
       setMessageBox("");
     }
   };

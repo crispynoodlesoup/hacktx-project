@@ -52,6 +52,21 @@ nav {
   margin: 0 auto 16px;
 }
 
+.logo-name {
+  color: white;
+  text-align: center;
+  margin: -8px 0 16px;
+  user-select: none;
+}
+
+.logo-line {
+  background-color: white;
+  width: 60px;
+  margin-bottom: 20px;
+  height: 4px;
+  border-radius: 2px;
+}
+
 .nav-icon {
   width: 60px;
   margin: 4px auto -4px;

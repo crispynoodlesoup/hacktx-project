@@ -98,6 +98,8 @@ function Messages() {
     <div className="Messages">
       <nav>
         <img className="nav-logo" src={logo} alt="" />
+        <h2 className="logo-name">Healthy Builds</h2>
+        <div className="logo-line"></div>
         <ul>
         <Link to="../home">
             <li>

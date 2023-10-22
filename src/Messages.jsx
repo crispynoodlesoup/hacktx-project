@@ -8,6 +8,9 @@ import logo from "./assets/canva/healthy-build-white-icon.png";
 import truck1 from "./assets/canva/trucks.png";
 import truck2 from "./assets/canva/trucks2.png";
 import truck3 from "./assets/canva/trucks3.png";
+import homeIcon from "./assets/canva/home.png";
+import messageIcon from "./assets/canva/message.png";
+import accountIcon from "./assets/canva/account.png";
 
 function Messages() {
   const [messageBox, setMessageBox] = useState("");

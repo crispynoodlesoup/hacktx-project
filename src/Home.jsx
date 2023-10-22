@@ -4,6 +4,9 @@ import closeImg from "./assets/close-thick.svg";
 import logo from "./assets/canva/healthy-build-white-icon.png";
 import downIcon from "./assets/chevron-down.svg";
 import upIcon from "./assets/chevron-up.svg";
+import homeIcon from "./assets/canva/home.png";
+import messageIcon from "./assets/canva/message.png";
+import accountIcon from "./assets/canva/account.png";
 
 function Home() {
   const name = localStorage.getItem("user");

@@ -1,10 +1,17 @@
-import { Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/login";
+import Home from "./Home";
 
 function App() {
   return (
-    <>
-      <Link to="home" style={{color:"black"}}>home</Link>
-    </>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/login" component={Login}/>
+          <Route path="/home" component={Home}/>
+        </Routes>
+      </div>
+    </Router>
   )
 }
 

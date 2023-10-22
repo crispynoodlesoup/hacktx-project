@@ -1,10 +1,10 @@
 import { Link, useOutletContext } from "react-router-dom";
 
 function Home() {
-    const name = useOutletContext();
-
+  const name = localStorage.getItem("user")
+  
   return (
-    <>
+    <div className="Home">
       <nav>
         <ul>
           <Link to="../home">
@@ -96,7 +96,7 @@ function Home() {
           </div>
         </section>
       </main>
-    </>
+    </div>
   );
 }
 

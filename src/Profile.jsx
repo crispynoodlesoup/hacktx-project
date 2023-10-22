@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import logo from "./assets/canva/healthy-build-white-icon.png";
 
 function Profile() {
   return (
     <div className="Profile">
       <nav>
+        <img className="nav-logo" src={logo} alt="" />
         <ul>
           <Link to="../home">
             <li>Home</li>

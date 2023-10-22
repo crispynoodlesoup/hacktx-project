@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { socket } from "./socket";;
+import { socket } from "./socket";
+import homeCity from "./assets/canva/home_city.png";
+import logo from "./assets/canva/healthy-build-white-icon.png";
 
 function Messages() {
   const [messageBox, setMessageBox] = useState("");
   const [contactData, setContactData] = useState([]);
   const [messageData, setMessageData] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
-  const [isConnected, setIsConnected] = useState(socket.connected)
+  const [isConnected, setIsConnected] = useState(socket.connected);
   const username = localStorage.getItem("user");
 
   const handleContactClick = (contactname) => {
@@ -67,6 +69,7 @@ function Messages() {
   return (
     <div className="Messages">
       <nav>
+        <img className="nav-logo" src={logo} alt="" />
         <ul>
           <Link to="../home">
             <li>Home</li>
@@ -80,6 +83,7 @@ function Messages() {
         </ul>
       </nav>
       <main className="messages-page">
+      <div className="messaging-wrapper">
         <div className="messaging-main-div">
           <div className="contacts">
             <h3 className="contacts-header">Contacts</h3>
@@ -137,6 +141,8 @@ function Messages() {
             <p>100%!</p>
           </div>
         </div>
+        </div>
+        <img className="home-city" src={homeCity} alt="" />
       </main>
     </div>
   );
